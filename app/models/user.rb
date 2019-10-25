@@ -451,7 +451,7 @@ class User < ApplicationRecord
   end
 
   def tag_moderator?
-    roles.where(name: "tag_moderator").any?
+    roles.where(name: "tag_moderator").exists?
   end
 
   def currently_streaming?

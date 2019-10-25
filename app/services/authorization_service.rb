@@ -98,7 +98,7 @@ class AuthorizationService
 
   def user_identity_exists(identity)
     signed_in_resource &&
-      Identity.where(provider: identity.provider, user_id: signed_in_resource.id).any?
+      Identity.where(provider: identity.provider, user_id: signed_in_resource.id).exists?
   end
 
   def account_less_than_a_week_old?(user, logged_in_identity)

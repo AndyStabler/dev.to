@@ -47,7 +47,7 @@ class BufferUpdate < ApplicationRecord
     return if persisted?
 
     if BufferUpdate.where(body_text: body_text, article_id: article_id, tag_id: tag_id, social_service_name: social_service_name).
-        where("created_at > ?", 2.minutes.ago).any?
+        where("created_at > ?", 2.minutes.ago).exists?
       errors.add(:body_text, "\"#{body_text}\" has already been submitted very recently")
     end
   end

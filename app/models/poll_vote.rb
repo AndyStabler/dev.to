@@ -21,7 +21,7 @@ class PollVote < ApplicationRecord
     return false unless poll
 
     has_votes = (
-      poll.poll_votes.where(user_id: user_id).any? || poll.poll_skips.where(user_id: user_id).any?)
+      poll.poll_votes.where(user_id: user_id).exists? || poll.poll_skips.where(user_id: user_id).exists?)
     errors.add(:base, "cannot vote more than once in one poll") if has_votes
   end
 

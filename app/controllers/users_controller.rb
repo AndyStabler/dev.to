@@ -223,7 +223,7 @@ class UsersController < ApplicationController
   end
 
   def handle_integrations_tab
-    return unless current_user.identities.where(provider: "github").any?
+    return unless current_user.identities.where(provider: "github").exists?
 
     @client = Octokit::Client.
       new(access_token: current_user.identities.where(provider: "github").last.token)

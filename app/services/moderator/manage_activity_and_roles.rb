@@ -13,7 +13,7 @@ module Moderator
     end
 
     def delete_comments
-      return unless user.comments.any?
+      return unless user.comments.exists?
 
       cachebuster = CacheBuster.new
       user.comments.find_each do |comment|
@@ -26,7 +26,7 @@ module Moderator
     end
 
     def delete_articles
-      return unless user.articles.any?
+      return unless user.articles.exists?
 
       cachebuster = CacheBuster.new
       virtual_articles = user.articles.map { |article| Article.new(article.attributes) }

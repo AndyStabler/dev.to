@@ -61,7 +61,7 @@ class Reaction < ApplicationRecord
       class_name = reactable.class.name == "ArticleDecorator" ? "Article" : reactable.class.name
       cache_name = "any_reactions_for-#{class_name}-#{reactable.id}-#{user.updated_at}-#{category}"
       Rails.cache.fetch(cache_name, expires_in: 24.hours) do
-        Reaction.where(reactable_id: reactable.id, reactable_type: class_name, user: user, category: category).any?
+        Reaction.where(reactable_id: reactable.id, reactable_type: class_name, user: user, category: category).exists?
       end
     end
   end

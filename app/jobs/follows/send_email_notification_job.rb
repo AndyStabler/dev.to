@@ -7,7 +7,7 @@ module Follows
       return unless follow&.followable&.email? && follow.followable.email_follower_notifications
       return if EmailMessage.where(user_id: follow.followable_id).
         where("sent_at > ?", rand(15..35).hours.ago).
-        where("subject LIKE ?", "%followed you on dev.to%").any?
+        where("subject LIKE ?", "%followed you on dev.to%").exists?
 
       mailer.new_follower_email(follow).deliver
     end

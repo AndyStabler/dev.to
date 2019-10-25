@@ -68,11 +68,11 @@ module Moderator
     end
 
     def merge_profile
-      if @delete_user.github_repos.any?
+      if @delete_user.github_repos.exists?
         @delete_user.github_repos.update_all(user_id: @keep_user.id)
         @keep_user.touch(:github_repos_updated_at)
       end
-      if @delete_user.badge_achievements.any?
+      if @delete_user.badge_achievements.exists?
         @delete_user.badge_achievements.update_all(user_id: @keep_user.id)
         @keep_user.badge_achievements_count = @keep_user.badge_achievements.size
       end
@@ -81,20 +81,20 @@ module Moderator
     end
 
     def merge_chat_mentions
-      @delete_user.chat_channel_memberships.update_all(user_id: @keep_user.id) if @delete_user.chat_channel_memberships.any?
-      @delete_user.mentions.update_all(user_id: @keep_user.id) if @delete_user.mentions.any?
+      @delete_user.chat_channel_memberships.update_all(user_id: @keep_user.id) if @delete_user.chat_channel_memberships.exists?
+      @delete_user.mentions.update_all(user_id: @keep_user.id) if @delete_user.mentions.exists?
     end
 
     def merge_follows
-      @delete_user.follows&.update_all(follower_id: @keep_user.id) if @delete_user.follows.any?
+      @delete_user.follows&.update_all(follower_id: @keep_user.id) if @delete_user.follows.exists?
       @delete_user_followers = Follow.where(followable_id: @delete_user.id, followable_type: "User")
-      @delete_user_followers.update_all(followable_id: @keep_user.id) if @delete_user_followers.any?
+      @delete_user_followers.update_all(followable_id: @keep_user.id) if @delete_user_followers.exists?
     end
 
     def merge_content
-      merge_reactions if @delete_user.reactions.any?
-      merge_comments if @delete_user.comments.any?
-      merge_articles if @delete_user.articles.any?
+      merge_reactions if @delete_user.reactions.exists?
+      merge_comments if @delete_user.comments.exists?
+      merge_articles if @delete_user.articles.exists?
     end
 
     def merge_reactions

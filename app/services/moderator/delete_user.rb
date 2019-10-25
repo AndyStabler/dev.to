@@ -40,7 +40,7 @@ module Moderator
     end
 
     def reassign_comments
-      return unless user.comments.any?
+      return unless user.comments.exists?
 
       user.comments.find_each do |comment|
         comment.update(user_id: @ghost.id)
@@ -49,7 +49,7 @@ module Moderator
     end
 
     def reassign_articles
-      return unless user.articles.any?
+      return unless user.articles.exists?
 
       # preload associations that are going to be used during indexing
       user.articles.preload(:taggings, :organization).find_each do |article|
